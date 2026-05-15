@@ -9,4 +9,9 @@ Usage:
     from recaptcha_csp.widgets import CSPReCaptchaV2Checkbox
 """
 
-__version__ = "0.1.0"
+try:
+    from importlib.metadata import version
+    __version__ = version("django-recaptcha-csp")
+except Exception:
+    # Fallback for development installations
+    __version__ = "0.0.0+dev"
