@@ -1,0 +1,17 @@
+
+# Python
+ltenews/tests/media/*
+*.py[cod]
+*.egg-info/
+__pycache__/
+.venv/
+
+# Build artifacts
+dist/
+build/
+*.egg
+
+# Django test database
+*.sqlite3
+demo_site/media/
+demo_site/staticfiles/
