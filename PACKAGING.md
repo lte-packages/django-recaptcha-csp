@@ -24,11 +24,6 @@
    python -m build
    ```
 
-5. **Publish to PyPI (optional):**
-   ```bash
-   twine upload dist/*
-   ```
-
 ## Or Use as Git Dependency
 
 In your `requirements.txt`:

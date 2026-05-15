@@ -43,9 +43,6 @@ clean:  ## Clean up build artifacts
 	rm -rf build/
 	rm -rf dist/
 	rm -rf *.egg-info/
-	rm -rf htmlcov/
-	rm -rf .coverage
-	rm -rf $(PYTHON_ENV) demo_site/db.sqlite3 demo_site/staticfiles demo_site/media
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 

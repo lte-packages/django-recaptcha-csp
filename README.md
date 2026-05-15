@@ -36,7 +36,7 @@ This document provides information for package maintainers. For end-user documen
 
 3. **Install build dependencies:**
    ```bash
-   pip install build twine ruff
+   pip install build ruff
    ```
 
 ## Project Structure
@@ -143,34 +143,6 @@ pip install -e .
 - [ ] Run `make format`
 - [ ] Build package: `python -m build`
 - [ ] Test install in clean environment
-
-### Publishing to PyPI
-
-1. **Install twine if not already installed:**
-   ```bash
-   pip install twine
-   ```
-
-2. **Upload to TestPyPI first (recommended):**
-   ```bash
-   twine upload --repository testpypi dist/*
-   ```
-
-3. **Test installation from TestPyPI:**
-   ```bash
-   pip install --index-url https://test.pypi.org/simple/ django-recaptcha-csp
-   ```
-
-4. **Upload to production PyPI:**
-   ```bash
-   twine upload dist/*
-   ```
-
-5. **Create Git tag:**
-   ```bash
-   git tag -a v0.1.0 -m "Release version 0.1.0"
-   git push origin v0.1.0
-   ```
 
 ### Version Numbering
 
