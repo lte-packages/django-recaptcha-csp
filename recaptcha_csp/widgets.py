@@ -33,9 +33,13 @@ class CSPReCaptchaV2Checkbox(ReCaptchaBase):
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        # Try to get from widget attribute first (for backward compatibility)
-        # then fall back to context storage
-        context["csp_nonce"] = get_csp_nonce()
+        # Get nonce and add to context AFTER parent context is built
+        nonce = get_csp_nonce()
+        # Add to root context
+        context["csp_nonce"] = nonce
+        # Also try adding to widget attrs in case template looks there
+        if "widget" in context and nonce:
+            context["widget"]["csp_nonce"] = nonce
         return context
 
 
@@ -61,7 +65,11 @@ class CSPReCaptchaV2Invisible(ReCaptchaBase):
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        # Try to get from widget attribute first (for backward compatibility)
-        # then fall back to context storage
-        context["csp_nonce"] = get_csp_nonce()
+        # Get nonce and add to context AFTER parent context is built
+        nonce = get_csp_nonce()
+        # Add to root context
+        context["csp_nonce"] = nonce
+        # Also try adding to widget attrs in case template looks there
+        if "widget" in context and nonce:
+            context["widget"]["csp_nonce"] = nonce
         return context
