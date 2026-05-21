@@ -1,0 +1,12 @@
+# Requirements for the django-recaptcha-csp demo site
+
+# Core dependencies (should be installed from parent package)
+Django>=4.2
+# Use version 3.x which provides the 'captcha' module name
+django-recaptcha>=3.0.0,<4.0
+
+# The package itself (install from parent directory with: pip install -e ..)
+# django-recaptcha-csp
+
+# CSP support
+django-csp>=4.0.0

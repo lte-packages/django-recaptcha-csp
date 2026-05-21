@@ -1,0 +1,35 @@
+{% extends "demo_app/base.html" %}
+
+{% block title %}Success - Django ReCaptcha CSP Demo{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 2rem 0;">
+    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+    <h2 style="color: #28a745; margin-bottom: 1rem;">Success!</h2>
+    <p style="font-size: 1.1rem; color: #666;">Your form has been submitted successfully.</p>
+</div>
+
+<div class="card">
+    <h3>What happened?</h3>
+    <ol style="margin-left: 1.5rem; line-height: 1.8;">
+        <li><strong>Form validation passed</strong> - All fields were valid</li>
+        <li><strong>reCAPTCHA verified</strong> - Bot protection confirmed (if used)</li>
+        <li><strong>CSP nonce injected</strong> - Security policy maintained</li>
+        <li><strong>Data processed</strong> - Ready to save or email</li>
+    </ol>
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+    <a href="{% url 'index' %}" class="btn">← Back to Home</a>
+</div>
+
+<div class="card" style="margin-top: 2rem;">
+    <h3>🎉 Key Takeaways</h3>
+    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+        <li><strong>Zero boilerplate</strong> - No request passing needed</li>
+        <li><strong>CSP compliant</strong> - Strict security policies maintained</li>
+        <li><strong>User friendly</strong> - Seamless experience for legitimate users</li>
+        <li><strong>Bot protected</strong> - Automated submissions blocked</li>
+    </ul>
+</div>
+{% endblock %}

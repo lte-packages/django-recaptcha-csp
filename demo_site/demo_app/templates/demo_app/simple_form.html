@@ -1,0 +1,54 @@
+{% extends "demo_app/base.html" %}
+
+{% block title %}{{ form_title }} - Django ReCaptcha CSP Demo{% endblock %}
+
+{% block content %}
+<h2>{{ form_title }}</h2>
+
+<div class="alert alert-info">
+    <strong>📝 About this demo:</strong> This is a standard Django form without any reCAPTCHA protection.
+    It's included for comparison to show what a form looks like without bot protection.
+</div>
+
+<div class="card">
+    <h3>Why use reCAPTCHA?</h3>
+    <p>
+        Without reCAPTCHA or similar protection, forms are vulnerable to:
+    </p>
+    <ul style="margin-left: 1.5rem; line-height: 1.8; margin-top: 0.5rem;">
+        <li>🤖 Automated bot submissions</li>
+        <li>📧 Spam and unwanted messages</li>
+        <li>🔓 Brute force attacks</li>
+        <li>💥 Resource exhaustion</li>
+    </ul>
+</div>
+
+<form method="post" style="margin-top: 2rem;">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_name">Name:</label>
+        {{ form.name }}
+        {{ form.name.errors }}
+    </div>
+    
+    <div class="form-group">
+        <label for="id_email">Email:</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+    
+    <button type="submit" class="btn">Submit</button>
+</form>
+
+<div class="card" style="margin-top: 2rem;">
+    <h3>🔒 Add Protection</h3>
+    <p>
+        Compare this form with the reCAPTCHA-protected versions:
+    </p>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li><a href="{% url 'contact_checkbox' %}">Try Checkbox reCAPTCHA →</a></li>
+        <li><a href="{% url 'contact_invisible' %}">Try Invisible reCAPTCHA →</a></li>
+    </ul>
+</div>
+{% endblock %}

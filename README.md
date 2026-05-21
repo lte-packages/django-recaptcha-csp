@@ -95,6 +95,25 @@ form = MyModelForm()
 - Django >= 4.2
 - django-recaptcha >= 3.0
 
+## Demo Site
+
+A complete demo Django website is included for testing and development:
+
+```bash
+make demo-setup    # First time only: install deps and setup database
+make demo-run      # Start the development server
+```
+
+Then visit: **http://localhost:8000/**
+
+The demo includes:
+- ✅ Working examples of both Checkbox and Invisible reCAPTCHA
+- ✅ CSP middleware implementation
+- ✅ Multiple form examples
+- ✅ Educational content about CSP
+
+See [demo_site/QUICKSTART.md](demo_site/QUICKSTART.md) for more details.
+
 ## How It Works
 
 ### With Middleware (Recommended)

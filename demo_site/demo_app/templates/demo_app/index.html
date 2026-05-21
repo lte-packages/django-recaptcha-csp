@@ -1,0 +1,102 @@
+{% extends "demo_app/base.html" %}
+
+{% block title %}Home - Django ReCaptcha CSP Demo{% endblock %}
+
+{% block content %}
+<h2>Welcome to the Django ReCaptcha CSP Demo</h2>
+
+<div class="alert alert-info">
+    <strong>ℹ️ About this demo:</strong> This site demonstrates the <code>django-recaptcha-csp</code> package, 
+    which provides Content Security Policy (CSP) nonce support for django-recaptcha widgets.
+</div>
+
+<div class="card">
+    <h3>🎯 What is django-recaptcha-csp?</h3>
+    <p>
+        This package solves the problem of using Google reCAPTCHA with strict Content Security Policies.
+        It provides CSP-aware widget classes that automatically inject nonces into inline scripts,
+        allowing reCAPTCHA to work without violating your CSP rules.
+    </p>
+</div>
+
+<div class="card">
+    <h3>✨ Key Features</h3>
+    <ul style="margin-left: 1.5rem; line-height: 2;">
+        <li><strong>Automatic nonce injection</strong> - No manual passing required!</li>
+        <li><strong>Middleware-based</strong> - Works seamlessly with django-csp or custom CSP middleware</li>
+        <li><strong>Multiple widget types</strong> - Checkbox and Invisible reCAPTCHA v2</li>
+        <li><strong>Drop-in replacement</strong> - Minimal changes to existing code</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h3>🧪 Try the Demos</h3>
+    <p style="margin-bottom: 1rem;">Explore different implementations:</p>
+    
+    <div style="display: grid; gap: 1rem;">
+        <a href="{% url 'contact_checkbox' %}" style="text-decoration: none;">
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px; border: 2px solid #e9ecef;">
+                <strong style="color: #667eea;">📋 reCAPTCHA v2 Checkbox</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #666;">Traditional visible checkbox challenge</p>
+            </div>
+        </a>
+        
+        <a href="{% url 'contact_invisible' %}" style="text-decoration: none;">
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px; border: 2px solid #e9ecef;">
+                <strong style="color: #667eea;">👁️ reCAPTCHA v2 Invisible</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #666;">Seamless validation on form submit</p>
+            </div>
+        </a>
+        
+        <a href="{% url 'simple_form' %}" style="text-decoration: none;">
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px; border: 2px solid #e9ecef;">
+                <strong style="color: #667eea;">📝 Simple Form</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #666;">Standard form without reCAPTCHA (for comparison)</p>
+            </div>
+        </a>
+        
+        <a href="{% url 'csp_info' %}" style="text-decoration: none;">
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 5px; border: 2px solid #e9ecef;">
+                <strong style="color: #667eea;">🔒 CSP Information</strong>
+                <p style="margin: 0.5rem 0 0 0; color: #666;">See how CSP nonces work</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📚 How It Works</h3>
+    <ol style="margin-left: 1.5rem; line-height: 2;">
+        <li><strong>Middleware generates a nonce</strong> for each request</li>
+        <li><strong>Nonce is stored</strong> in thread-safe context storage</li>
+        <li><strong>Widgets automatically retrieve</strong> the nonce</li>
+        <li><strong>Templates render</strong> with proper CSP nonce attributes</li>
+    </ol>
+</div>
+
+<div class="card">
+    <h3>⚙️ Quick Setup</h3>
+    <pre><code># settings.py
+INSTALLED_APPS = [
+    ...
+    'captcha',  # django-recaptcha
+    'recaptcha_csp',  # This package
+]
+
+MIDDLEWARE = [
+    ...
+    'csp.middleware.CSPMiddleware',  # Your CSP middleware
+    'recaptcha_csp.middleware.CSPNonceMiddleware',  # Add after CSP
+]
+
+# forms.py
+from captcha.fields import ReCaptchaField
+from recaptcha_csp.widgets import CSPReCaptchaV2Checkbox
+
+class MyForm(forms.Form):
+    captcha = ReCaptchaField(widget=CSPReCaptchaV2Checkbox)
+
+# views.py - No changes needed!
+form = MyForm()  # That's it!</code></pre>
+</div>
+{% endblock %}

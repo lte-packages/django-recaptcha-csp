@@ -1,0 +1,106 @@
+{% extends "demo_app/base.html" %}
+
+{% block title %}CSP Info - Django ReCaptcha CSP Demo{% endblock %}
+
+{% block content %}
+<h2>🔒 Content Security Policy Information</h2>
+
+<div class="alert alert-info">
+    <strong>ℹ️ What is CSP?</strong> Content Security Policy (CSP) is a security standard that helps prevent
+    Cross-Site Scripting (XSS), clickjacking, and other code injection attacks.
+</div>
+
+<div class="card">
+    <h3>Current Request CSP Nonce</h3>
+    {% if csp_nonce %}
+        <p>The CSP nonce for this request is:</p>
+        <pre><code>{{ csp_nonce }}</code></pre>
+        <p style="margin-top: 1rem;">
+            This nonce is generated for each request and allows inline scripts to execute
+            while maintaining strict CSP rules.
+        </p>
+    {% else %}
+        <p style="color: #dc3545;">
+            <strong>⚠️ No CSP nonce detected!</strong> Make sure the SimpleCSPMiddleware is enabled.
+        </p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>How django-recaptcha-csp Works</h3>
+    <ol style="margin-left: 1.5rem; line-height: 1.8;">
+        <li>
+            <strong>Middleware generates nonce</strong><br>
+            <code>SimpleCSPMiddleware</code> creates a unique nonce for each request
+        </li>
+        <li>
+            <strong>Nonce stored in context</strong><br>
+            <code>CSPNonceMiddleware</code> stores it in thread-safe context storage
+        </li>
+        <li>
+            <strong>Widgets retrieve nonce</strong><br>
+            <code>CSPReCaptchaV2Checkbox/Invisible</code> automatically get the nonce
+        </li>
+        <li>
+            <strong>Templates render with nonce</strong><br>
+            Inline scripts include <code>nonce="{{ csp_nonce }}"</code> attribute
+        </li>
+    </ol>
+</div>
+
+<div class="card">
+    <h3>CSP Header Example</h3>
+    <p>This demo uses a simple CSP header like this:</p>
+    <pre><code>Content-Security-Policy: 
+    script-src 'self' 'nonce-{{ csp_nonce }}' 
+        https://www.google.com/recaptcha/ 
+        https://www.gstatic.com/recaptcha/;
+    frame-src https://www.google.com/recaptcha/ 
+        https://www.gstatic.com/recaptcha/;
+    style-src 'self' 'unsafe-inline';
+    default-src 'self';</code></pre>
+</div>
+
+<div class="card">
+    <h3>Production Setup</h3>
+    <p>For production, use a proper CSP library like <code>django-csp</code>:</p>
+    <pre><code># Install
+pip install django-csp
+
+# settings.py
+MIDDLEWARE = [
+    ...
+    'csp.middleware.CSPMiddleware',  # django-csp
+    'recaptcha_csp.middleware.CSPNonceMiddleware',  # Our middleware
+]
+
+# CSP Settings
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "https://www.google.com/recaptcha/",
+    "https://www.gstatic.com/recaptcha/",
+)
+CSP_FRAME_SRC = (
+    "https://www.google.com/recaptcha/",
+    "https://www.gstatic.com/recaptcha/",
+)
+CSP_INCLUDE_NONCE_IN = ['script-src']</code></pre>
+</div>
+
+<div class="card">
+    <h3>🔍 Check Your Browser</h3>
+    <p>
+        Open your browser's Developer Tools (F12) and check the Network tab to see
+        the CSP header in the response headers for this page.
+    </p>
+    <p style="margin-top: 1rem;">
+        You can also check the Console tab - if there are any CSP violations,
+        they'll be logged there.
+    </p>
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+    <a href="{% url 'index' %}" class="btn">← Back to Home</a>
+</div>
+{% endblock %}
