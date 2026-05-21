@@ -67,6 +67,6 @@ build: install_build_deps  ## Build the package
 # create git tag for the current version
 tag:  ## Create a git tag for the current version
 	@VERSION=$$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'); \
-	git tag -a "v$$VERSION" -m "Release version $$VERSION"; \
-	git push origin "v$$VERSION"
-	@echo "Created and pushed git tag v$$VERSION"
+	git tag -a "$$VERSION" -m "Release version $$VERSION"; \
+	git push origin "$$VERSION"
+	@echo "Created and pushed git tag $$VERSION"
