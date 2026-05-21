@@ -1,12 +1,19 @@
 """
 Simple CSP middleware for demonstration purposes.
 
+⚠️  DEPRECATED: This middleware is no longer used in the demo site.
+The demo now uses django-csp (https://github.com/mozilla/django-csp)
+for production-ready CSP support.
+
+This file is kept for reference only.
+
+---
+
 In production, use a proper CSP library like django-csp:
 https://github.com/mozilla/django-csp
 """
 
 import secrets
-from django.conf import settings
 
 
 class SimpleCSPMiddleware:
@@ -34,12 +41,12 @@ class SimpleCSPMiddleware:
         # Build CSP header
         csp_directives = [
             f"script-src 'self' 'nonce-{nonce}' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
-            f"frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
-            f"style-src 'self' 'unsafe-inline'",
+            "frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/",
+            "style-src 'self' 'unsafe-inline'",
             "default-src 'self'",
         ]
 
         # Set CSP header
-        response['Content-Security-Policy'] = '; '.join(csp_directives)
+        response["Content-Security-Policy"] = "; ".join(csp_directives)
 
         return response

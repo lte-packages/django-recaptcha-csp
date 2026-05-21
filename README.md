@@ -108,7 +108,7 @@ Then visit: **http://localhost:8000/**
 
 The demo includes:
 - ✅ Working examples of both Checkbox and Invisible reCAPTCHA
-- ✅ CSP middleware implementation
+- ✅ Production-ready CSP implementation using django-csp
 - ✅ Multiple form examples
 - ✅ Educational content about CSP
 

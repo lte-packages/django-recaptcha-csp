@@ -11,6 +11,7 @@ Usage:
 
 try:
     from importlib.metadata import version
+
     __version__ = version("django-recaptcha-csp")
 except Exception:
     # Fallback for development installations

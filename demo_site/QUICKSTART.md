@@ -2,6 +2,8 @@
 
 The fastest way to run the django-recaptcha-csp demo site.
 
+The demo uses [django-csp](https://github.com/mozilla/django-csp) for production-ready CSP support.
+
 ## Prerequisites
 
 - Python 3.8+

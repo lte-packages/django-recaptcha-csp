@@ -3,6 +3,7 @@ CSP-aware ReCaptcha widgets.
 """
 
 from captcha.widgets import ReCaptchaBase
+
 from recaptcha_csp.context import get_csp_nonce
 
 

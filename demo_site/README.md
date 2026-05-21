@@ -128,33 +128,41 @@ demo_site/
 
 ### CSP Middleware
 
-The demo includes a simplified CSP middleware (`simple_csp_middleware.py`) for demonstration purposes. 
+The demo uses [django-csp](https://github.com/mozilla/django-csp) for production-ready Content Security Policy support.
 
-**For production**, use a proper CSP library like [django-csp](https://github.com/mozilla/django-csp):
-
-```bash
-pip install django-csp
-```
+**Configuration in settings.py (django-csp 4.0+ format):**
 
 ```python
 # settings.py
 MIDDLEWARE = [
     ...
-    'csp.middleware.CSPMiddleware',
-    'recaptcha_csp.middleware.CSPNonceMiddleware',
+    'csp.middleware.CSPMiddleware',  # django-csp
+    'recaptcha_csp.middleware.CSPNonceMiddleware',  # Our middleware (must be after CSP)
 ]
 
-CSP_SCRIPT_SRC = (
-    "'self'",
-    "https://www.google.com/recaptcha/",
-    "https://www.gstatic.com/recaptcha/",
-)
-CSP_FRAME_SRC = (
-    "https://www.google.com/recaptcha/",
-    "https://www.gstatic.com/recaptcha/",
-)
-CSP_INCLUDE_NONCE_IN = ['script-src']
+# CSP Settings (v4.0+ format)
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'nonce'",  # Enable nonce support
+            "'strict-dynamic'",  # Allow dynamically loaded scripts
+            "https:",  # Fallback for older browsers
+            "'unsafe-inline'",  # Fallback (ignored with nonce support)
+        ],
+        "frame-src": [
+            "https://www.google.com/recaptcha/",
+            "https://www.gstatic.com/recaptcha/",
+        ],
+    }
+}
 ```
+
+**Important:** When using `'nonce'` and `'strict-dynamic'`, you cannot include URL whitelists
+in `script-src`. The reCAPTCHA scripts are loaded dynamically by trusted scripts with valid nonces.
+The `frame-src` directive is separate and can still whitelist the reCAPTCHA iframe domains.
+
+Our `CSPNonceMiddleware` captures the nonce from django-csp for use in reCAPTCHA widgets.
 
 ### Database
 

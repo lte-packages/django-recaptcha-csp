@@ -63,9 +63,9 @@
 
 <div class="card">
     <h3>Production Setup</h3>
-    <p>For production, use a proper CSP library like <code>django-csp</code>:</p>
+    <p>This demo uses <code>django-csp</code> with nonce-based CSP and <code>strict-dynamic</code>:</p>
     <pre><code># Install
-pip install django-csp
+pip install django-csp>=4.0.0
 
 # settings.py
 MIDDLEWARE = [
@@ -74,18 +74,25 @@ MIDDLEWARE = [
     'recaptcha_csp.middleware.CSPNonceMiddleware',  # Our middleware
 ]
 
-# CSP Settings
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = (
-    "'self'",
-    "https://www.google.com/recaptcha/",
-    "https://www.gstatic.com/recaptcha/",
-)
-CSP_FRAME_SRC = (
-    "https://www.google.com/recaptcha/",
-    "https://www.gstatic.com/recaptcha/",
-)
-CSP_INCLUDE_NONCE_IN = ['script-src']</code></pre>
+# CSP Settings (v4.0+ format)
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'nonce'",  # Enable nonce support
+            "'strict-dynamic'",  # Allow dynamically loaded scripts
+            "https:",  # Fallback for older browsers
+            "'unsafe-inline'",  # Fallback (ignored with nonce)
+        ],
+        "frame-src": [
+            "https://www.google.com/recaptcha/",
+            "https://www.gstatic.com/recaptcha/",
+        ],
+    }
+}
+
+# Note: URL whitelists are incompatible with nonce/strict-dynamic
+# reCAPTCHA scripts load dynamically from trusted nonce sources</code></pre>
 </div>
 
 <div class="card">
