@@ -1,4 +1,5 @@
 {# The provided implementation caters for only one reCAPTCHA on a page. Override this template and its logic as needed. #}
+<!-- CSP Visible reCAPTCHA checkbox implementation -->
 <script nonce="{{ csp_nonce }}" src="https://{{ recaptcha_domain }}/recaptcha/api.js{% if api_params %}?{{ api_params }}{% endif %}"></script>
 
 <script nonce="{{ csp_nonce }}" type="text/javascript">
