@@ -7,6 +7,15 @@ This is a minimal configuration for testing django-recaptcha-csp locally.
 import os
 from pathlib import Path
 
+from csp.constants import (
+    SELF,
+    NONE,
+    UNSAFE_INLINE,
+    STRICT_DYNAMIC,
+    # REPORT_SAMPLE,
+    NONCE,
+)
+
 # django-csp is now used for production-ready CSP support
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -139,8 +148,8 @@ CONTENT_SECURITY_POLICY = {
         # Note: URL whitelists are incompatible with nonce/strict-dynamic
         # strict-dynamic allows scripts loaded by nonce-approved scripts to load other scripts
         "script-src": [
-            "'nonce'",  # Enable nonce support for inline scripts
-            "'strict-dynamic'",  # Allow dynamically loaded scripts from trusted sources
+            NONCE,
+            STRICT_DYNAMIC,
             "https:",  # Fallback for older browsers that don't support strict-dynamic
             "'unsafe-inline'",  # Fallback for older browsers (ignored when nonce is supported)
         ],
