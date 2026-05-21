@@ -3,7 +3,6 @@ CSP-aware ReCaptcha widgets.
 """
 
 from captcha.widgets import ReCaptchaBase
-
 from recaptcha_csp.context import get_csp_nonce
 
 
@@ -35,7 +34,7 @@ class CSPReCaptchaV2Checkbox(ReCaptchaBase):
         context = super().get_context(name, value, attrs)
         # Try to get from widget attribute first (for backward compatibility)
         # then fall back to context storage
-        context["csp_nonce"] = getattr(self, "csp_nonce", None) or get_csp_nonce()
+        context["csp_nonce"] = get_csp_nonce()
         return context
 
 
@@ -63,5 +62,5 @@ class CSPReCaptchaV2Invisible(ReCaptchaBase):
         context = super().get_context(name, value, attrs)
         # Try to get from widget attribute first (for backward compatibility)
         # then fall back to context storage
-        context["csp_nonce"] = getattr(self, "csp_nonce", None) or get_csp_nonce()
+        context["csp_nonce"] = get_csp_nonce()
         return context
