@@ -2,12 +2,32 @@
 CSP-aware ReCaptcha widgets.
 """
 
-from captcha.widgets import ReCaptchaBase
+from captcha.widgets import ReCaptchaV2Checkbox, ReCaptchaV2Invisible
 
 from recaptcha_csp.context import get_csp_nonce
 
 
-class CSPReCaptchaV2Checkbox(ReCaptchaBase):
+class CSPNonceMixin:
+    """
+    Mixin to add CSP nonce support to ReCaptcha widgets.
+
+    Injects the nonce from the request context into the widget context,
+    allowing inline scripts to work with strict Content Security Policy.
+    """
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        # Get nonce and add to context AFTER parent context is built
+        nonce = get_csp_nonce()
+        # Add to root context
+        context["csp_nonce"] = nonce
+        # Also try adding to widget attrs in case template looks there
+        if "widget" in context and nonce:
+            context["widget"]["csp_nonce"] = nonce
+        return context
+
+
+class CSPReCaptchaV2Checkbox(CSPNonceMixin, ReCaptchaV2Checkbox):
     """
     ReCaptcha V2 Checkbox widget with CSP nonce support.
 
@@ -31,19 +51,8 @@ class CSPReCaptchaV2Checkbox(ReCaptchaBase):
 
     template_name = "recaptcha_csp/widget_v2_checkbox.html"
 
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        # Get nonce and add to context AFTER parent context is built
-        nonce = get_csp_nonce()
-        # Add to root context
-        context["csp_nonce"] = nonce
-        # Also try adding to widget attrs in case template looks there
-        if "widget" in context and nonce:
-            context["widget"]["csp_nonce"] = nonce
-        return context
 
-
-class CSPReCaptchaV2Invisible(ReCaptchaBase):
+class CSPReCaptchaV2Invisible(CSPNonceMixin, ReCaptchaV2Invisible):
     """
     ReCaptcha V2 Invisible widget with CSP nonce support.
 
@@ -62,14 +71,3 @@ class CSPReCaptchaV2Invisible(ReCaptchaBase):
     """
 
     template_name = "recaptcha_csp/widget_v2_invisible.html"
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        # Get nonce and add to context AFTER parent context is built
-        nonce = get_csp_nonce()
-        # Add to root context
-        context["csp_nonce"] = nonce
-        # Also try adding to widget attrs in case template looks there
-        if "widget" in context and nonce:
-            context["widget"]["csp_nonce"] = nonce
-        return context
