@@ -268,6 +268,25 @@ Contributions are welcome! Please:
 - Template changes should maintain CSP nonce functionality
 - Document any breaking changes clearly
 
+## Demo Site
+
+A complete demo Django website is included for testing and development:
+
+```bash
+make demo-setup    # First time only: install deps and setup database
+make demo-run      # Start the development server
+```
+
+Then visit: **http://localhost:8000/**
+
+The demo includes:
+- ✅ Working examples of both Checkbox and Invisible reCAPTCHA
+- ✅ Production-ready CSP implementation using django-csp
+- ✅ Multiple form examples
+- ✅ Educational content about CSP
+
+See [demo_site/QUICKSTART.md](demo_site/QUICKSTART.md) for more details.
+
 ## Resources
 
 - [PEP 517 - Build system requirements](https://peps.python.org/pep-0517/)
