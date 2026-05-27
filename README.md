@@ -2,6 +2,10 @@
 
 A lightweight Django app that provides Content Security Policy (CSP) nonce support for django-recaptcha widgets.
 
+*N.B: This package does not provide a CSP solution only a means to feed a CSP nonce into django-recaptcha widgets.*
+
+The package is tested with [Django CSP](https://django-csp.readthedocs.io/en/latest/) for generating nonces.
+
 ## Problem
 
 The [django-recaptcha](https://github.com/django-recaptcha/django-recaptcha) package doesn't natively support passing CSP nonces to widget templates, making it difficult to use with strict Content Security Policies. See [issue #101](https://github.com/django-recaptcha/django-recaptcha/issues/101).
