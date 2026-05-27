@@ -8,12 +8,12 @@ import os
 from pathlib import Path
 
 from csp.constants import (
-    SELF,
-    NONE,
-    UNSAFE_INLINE,
-    STRICT_DYNAMIC,
     # REPORT_SAMPLE,
     NONCE,
+    NONE,
+    SELF,
+    STRICT_DYNAMIC,
+    UNSAFE_INLINE,
 )
 
 # django-csp is now used for production-ready CSP support
@@ -22,7 +22,7 @@ from csp.constants import (
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-demo-key-for-local-testing-only-change-in-production"
+SECRET_KEY = "django-insecure-demo-key-for-local-testing-only-change-in-production"  # noqa: S105
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -142,8 +142,9 @@ SILENCED_SYSTEM_CHECKS = ["captcha.recaptcha_test_key_error"]
 
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
+        "frame-ancestors": [NONE],  # Prevent clickjacking
         # Default source policy
-        "default-src": ["'self'"],
+        "default-src": [SELF],
         # Script sources - use nonce-based CSP with strict-dynamic
         # Note: URL whitelists are incompatible with nonce/strict-dynamic
         # strict-dynamic allows scripts loaded by nonce-approved scripts to load other scripts
@@ -151,7 +152,7 @@ CONTENT_SECURITY_POLICY = {
             NONCE,
             STRICT_DYNAMIC,
             "https:",  # Fallback for older browsers that don't support strict-dynamic
-            "'unsafe-inline'",  # Fallback for older browsers (ignored when nonce is supported)
+            UNSAFE_INLINE,  # Fallback for older browsers (ignored when nonce is supported)
         ],
         # Frame sources - required for reCAPTCHA iframe
         # This is separate from script-src, so we can whitelist the reCAPTCHA domains
@@ -161,14 +162,14 @@ CONTENT_SECURITY_POLICY = {
         ],
         # Style sources - allow inline styles for demo (can be stricter in production)
         "style-src": [
-            "'self'",
-            "'unsafe-inline'",  # Required for inline styles in demo templates
+            SELF,
+            UNSAFE_INLINE,  # Required for inline styles in demo templates
         ],
         # Image sources
-        "img-src": ["'self'", "data:"],
+        "img-src": [SELF, "data:"],
         # Font sources
-        "font-src": ["'self'"],
+        "font-src": [SELF],
         # Connect sources (for AJAX, WebSocket, etc.)
-        "connect-src": ["'self'"],
+        "connect-src": [SELF],
     }
 }

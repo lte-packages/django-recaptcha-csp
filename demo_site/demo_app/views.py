@@ -31,9 +31,9 @@ def contact_checkbox(request):
         if form.is_valid():
             # Process the form data
             name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            subject = form.cleaned_data["subject"]
-            message = form.cleaned_data["message"]
+            # email = form.cleaned_data["email"]
+            # subject = form.cleaned_data["subject"]
+            # message = form.cleaned_data["message"]
 
             # In a real app, you'd save to database or send email here
             messages.success(
@@ -70,9 +70,9 @@ def contact_invisible(request):
         form = ContactFormInvisible(request.POST)
         if form.is_valid():
             name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            subject = form.cleaned_data["subject"]
-            message = form.cleaned_data["message"]
+            # email = form.cleaned_data["email"]
+            # subject = form.cleaned_data["subject"]
+            # message = form.cleaned_data["message"]
 
             messages.success(
                 request,
