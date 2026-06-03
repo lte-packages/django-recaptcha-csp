@@ -170,6 +170,6 @@ CONTENT_SECURITY_POLICY = {
         # Font sources
         "font-src": [SELF],
         # Connect sources (for AJAX, WebSocket, etc.)
-        "connect-src": [SELF],
+        "connect-src": [SELF, 'www.google.com/recaptcha/'],  # Allow reCAPTCHA API calls
     }
 }

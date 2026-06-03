@@ -40,7 +40,7 @@ class ContactFormCheckbox(forms.Form):
     )
     # CSP-aware reCAPTCHA v2 Checkbox widget
     # The middleware automatically provides the CSP nonce!
-    captcha = ReCaptchaField(widget=CSPReCaptchaV2Checkbox)
+    captcha = ReCaptchaField(widget=CSPReCaptchaV2Checkbox())
 
 
 class ContactFormInvisible(forms.Form):
@@ -74,7 +74,7 @@ class ContactFormInvisible(forms.Form):
         )
     )
     # CSP-aware reCAPTCHA v2 Invisible widget
-    captcha = ReCaptchaField(widget=CSPReCaptchaV2Invisible)
+    captcha = ReCaptchaField(widget=CSPReCaptchaV2Invisible())
 
 
 class SimpleForm(forms.Form):
